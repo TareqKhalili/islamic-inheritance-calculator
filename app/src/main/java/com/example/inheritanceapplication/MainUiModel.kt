@@ -72,8 +72,6 @@ data class MainUiModel(
 
         mapOf(
             RelationKey.STEPMOTHER_SIDE to listOf(
-                InheritorDetails(Relationship.MOTHER_SISTER),
-                InheritorDetails(Relationship.MOTHER_BROTHER),
                 InheritorDetails(Relationship.MOTHER_GRANDMOTHER)
             ),
         ),
@@ -81,10 +79,8 @@ data class MainUiModel(
         mapOf(
             RelationKey.STEPFATHER_SIDE to listOf(
                 InheritorDetails(Relationship.FATHER_GRANDMOTHER),
-                InheritorDetails(Relationship.STEPFATHER_DAUGHTER),
-                InheritorDetails(Relationship.STEPFATHER_SON),
                 InheritorDetails(Relationship.FATHER_UNCLE),
-                InheritorDetails(Relationship.STEPFATHER_COUSIN_SON)
+                InheritorDetails(Relationship.STEPFATHER_UNCLE_GRANDSON)
             ),
         ),
 
@@ -138,36 +134,43 @@ data class InheritorDetails(
     val slice: MutableState<Double> = mutableStateOf(0.0)
 ) {
     fun getPositionInCalculationsEnum(proyarities: Array<Main.PROYARITY>): Int {
-        return when(relationship.value) {
-            Relationship.NONE -> proyarities[Main.PROYARITY.NONE.ordinal].ordinal
-            Relationship.HUSBAND -> proyarities[Main.PROYARITY.HUSABAND.ordinal].ordinal
-            Relationship.WIFE -> proyarities[Main.PROYARITY.BROOM.ordinal].ordinal
-            Relationship.DAUGHTER -> proyarities[Main.PROYARITY.DOUNTER.ordinal].ordinal
-            Relationship.SON -> proyarities[Main.PROYARITY.SON.ordinal].ordinal
-            Relationship.GRANDSON -> proyarities[Main.PROYARITY.SON_OF_SON.ordinal].ordinal
+        return when (relationship.value) {
+            Relationship.NONE -> proyarities[Main.PROYARITY.NONE.ordinal].ordinal //
+            Relationship.HUSBAND -> proyarities[Main.PROYARITY.HUSABAND.ordinal].ordinal //
+            Relationship.WIFE -> proyarities[Main.PROYARITY.BROOM.ordinal].ordinal //
+            Relationship.DAUGHTER -> proyarities[Main.PROYARITY.DOUNTER.ordinal].ordinal //
+            Relationship.SON -> proyarities[Main.PROYARITY.SON.ordinal].ordinal //
+            Relationship.GRANDSON -> proyarities[Main.PROYARITY.SON_OF_SON.ordinal].ordinal //
+            Relationship.GRANDSON_SON -> proyarities[Main.PROYARITY.SON_OF_SON_OF_SON.ordinal].ordinal //
             Relationship.GRANDDAUGHTER -> proyarities[Main.PROYARITY.DOUTER_OF_SON.ordinal].ordinal
-            Relationship.MOTHER_SISTER -> proyarities[Main.PROYARITY.SIBLINGSMOTHER.ordinal].ordinal // mother sisters / step mother sisters -> brothers from mothers
-            Relationship.MOTHER_BROTHER -> proyarities[Main.PROYARITY.SIBLINGSMOTHER.ordinal].ordinal
-            Relationship.MOTHER_GRANDMOTHER -> proyarities[Main.PROYARITY.GRANDMOTHER_FORM_MOTHERS_SIDE.ordinal].ordinal
-            Relationship.STEPFATHER_SON -> proyarities[Main.PROYARITY.BROTHERS_FROM_FATHER.ordinal].ordinal
-            Relationship.STEPFATHER_DAUGHTER -> proyarities[Main.PROYARITY.SISTERS_OF_FATHER.ordinal].ordinal // sisters from another father
-            Relationship.FATHER_UNCLE -> proyarities[Main.PROYARITY.UNCLE_OF_FATHERS.ordinal].ordinal // father uncle
-            Relationship.FATHER_COUSIN -> proyarities[Main.PROYARITY.SON_OF_FATHER_UNCLE.ordinal].ordinal // father cousin
-            Relationship.UNCLE -> proyarities[Main.PROYARITY.UNCLE.ordinal].ordinal // father brother
-            Relationship.STEPFATHER_COUSIN_SON -> proyarities[Main.PROYARITY.KIDS_OF_UNCLE_OF_FATHERS.ordinal].ordinal
-            Relationship.SISTER -> proyarities[Main.PROYARITY.SISTERS.ordinal].ordinal
-            Relationship.BROTHER -> proyarities[Main.PROYARITY.BROTHERS.ordinal].ordinal
-            Relationship.BROTHER_SON -> proyarities[Main.PROYARITY.KIDS_OF_BROTHERS.ordinal].ordinal
-            Relationship.MOTHER -> proyarities[Main.PROYARITY.MOTHER.ordinal].ordinal
-            Relationship.COUSIN -> proyarities[Main.PROYARITY.KIDS_OF_UNCLE.ordinal].ordinal
-            Relationship.COUSIN_SON -> proyarities[Main.PROYARITY.KIDS_OF_COUSIN.ordinal].ordinal
-            Relationship.FATHER -> proyarities[Main.PROYARITY.FATHER.ordinal].ordinal
-            Relationship.GRANDFATHER -> proyarities[Main.PROYARITY.GRANDFATHER.ordinal].ordinal
-            Relationship.STEPBROTHER_SON -> proyarities[Main.PROYARITY.KIDS_OF_BROTHERS_OF_FATHER.ordinal].ordinal
-            Relationship.FATHER_COUSIN_SON -> proyarities[Main.PROYARITY.KIDS_OF_KIDS_OF_BROTHERS.ordinal].ordinal
-            Relationship.STEPBROTHER -> proyarities[Main.PROYARITY.BROTHERS_FROM_FATHER.ordinal].ordinal
-            Relationship.FATHER_GRANDMOTHER -> proyarities[Main.PROYARITY.GRANDMOTHER_FORM_FATHER_SIDE.ordinal].ordinal
-        }
+            Relationship.MOTHER_GRANDMOTHER -> proyarities[Main.PROYARITY.GRANDMOTHER_FORM_MOTHERS_SIDE.ordinal].ordinal //
+            Relationship.STEPFATHER_UNCLE -> proyarities[Main.PROYARITY.UNCLE_OF_FATHERS.ordinal].ordinal //
+            Relationship.STEPFATHER_UNCLE_GRANDSON -> proyarities[Main.PROYARITY.KIDS_OF_COUSIN_OF_FATHER.ordinal].ordinal
+            Relationship.FATHER_UNCLE -> proyarities[Main.PROYARITY.FATHER_UNCLE.ordinal].ordinal //
+            Relationship.FATHER_COUSIN -> proyarities[Main.PROYARITY.SON_OF_FATHER_UNCLE.ordinal].ordinal //
+            Relationship.UNCLE -> proyarities[Main.PROYARITY.UNCLE.ordinal].ordinal //
+            Relationship.STEPFATHER_COUSIN -> proyarities[Main.PROYARITY.KIDS_OF_UNCLE_OF_FATHERS.ordinal].ordinal //
+            Relationship.SISTER -> proyarities[Main.PROYARITY.SISTERS.ordinal].ordinal //
+            Relationship.BROTHER -> proyarities[Main.PROYARITY.BROTHERS.ordinal].ordinal //
+            Relationship.BROTHER_SON -> proyarities[Main.PROYARITY.KIDS_OF_BROTHERS.ordinal].ordinal //
+            Relationship.BROTHER_GRANDSON -> proyarities[Main.PROYARITY.KIDS_OF_KIDS_OF_BROTHERS.ordinal].ordinal //
+            Relationship.MOTHER -> proyarities[Main.PROYARITY.MOTHER.ordinal].ordinal //
+            Relationship.COUSIN -> proyarities[Main.PROYARITY.KIDS_OF_UNCLE.ordinal].ordinal //
+            Relationship.COUSIN_SON -> proyarities[Main.PROYARITY.KIDS_OF_COUSIN.ordinal].ordinal //
+            Relationship.FATHER -> proyarities[Main.PROYARITY.FATHER.ordinal].ordinal //
+            Relationship.GRANDFATHER -> proyarities[Main.PROYARITY.GRANDFATHER.ordinal].ordinal //
+            Relationship.FATHER_COUSIN_SON -> proyarities[Main.PROYARITY.KIDS_OF_KIDS_OF_BROTHERS_OF_FATHER.ordinal].ordinal //
+            Relationship.STEPBROTHER -> proyarities[Main.PROYARITY.BROTHERS_FROM_FATHER.ordinal].ordinal //
+            Relationship.FATHER_GRANDMOTHER -> proyarities[Main.PROYARITY.GRANDMOTHER_FORM_FATHER_SIDE.ordinal].ordinal //
+            Relationship.STEPFATHER_GRANDFATHER -> proyarities[Main.PROYARITY.FATHER_UNCLE_OF_FATHER.ordinal].ordinal //
+            Relationship.GRANDSON_DAUGHTER -> proyarities[Main.PROYARITY.DOUTER_OF_SON_OF_SON.ordinal].ordinal //
+            Relationship.STEPSISTER -> proyarities[Main.PROYARITY.SISTERS_OF_FATHER.ordinal].ordinal //
+            Relationship.MOTHER_SIBLINGS -> proyarities[Main.PROYARITY.SIBLINGSMOTHER.ordinal].ordinal //
+            Relationship.STEPBROTHER_FROM_MOTHER -> proyarities[Main.PROYARITY.BROTHERS_FROM_MOTHER.ordinal].ordinal //
+            Relationship.STEPBROTHER_SON -> proyarities[Main.PROYARITY.KIDS_OF_BROTHERS_OF_FATHER.ordinal].ordinal //
+            Relationship.STEPBROTHER_GRANDSON -> proyarities[Main.PROYARITY.KIDS_OF_KIDS_OF_BROTHERS_OF_FATHER.ordinal].ordinal
+        } //            Relationship.STEPBROTHER_GRANDSON -> proyarities[Main.PROYARITY.KIDS_OF_KIDS_OF_BROTHERS_OF_FATHER.ordinal].ordinal //
+
     }
 
     constructor(relationship: Relationship) : this(mutableStateOf(relationship))
@@ -188,16 +191,15 @@ enum class Relationship {
     NONE,
     HUSBAND, WIFE,
     DAUGHTER, SON,
-    GRANDSON, GRANDDAUGHTER,
-    MOTHER_SISTER, MOTHER_BROTHER, MOTHER_GRANDMOTHER,
-    STEPFATHER_DAUGHTER, STEPFATHER_SON, STEPFATHER_COUSIN_SON,
-    STEPBROTHER_SON,
+    GRANDSON, GRANDDAUGHTER, GRANDSON_SON, GRANDSON_DAUGHTER,
+    STEPFATHER_COUSIN, STEPFATHER_UNCLE_GRANDSON, STEPFATHER_UNCLE, STEPFATHER_GRANDFATHER,
+    STEPBROTHER, STEPBROTHER_SON, STEPBROTHER_GRANDSON, STEPBROTHER_FROM_MOTHER,
+    STEPSISTER,
     SISTER,
-    BROTHER, BROTHER_SON,
-    MOTHER,
+    BROTHER, BROTHER_SON, BROTHER_GRANDSON,
+    MOTHER, MOTHER_SIBLINGS, MOTHER_GRANDMOTHER,
     UNCLE, COUSIN, COUSIN_SON,
     FATHER, GRANDFATHER, FATHER_COUSIN, FATHER_COUSIN_SON, FATHER_UNCLE, FATHER_GRANDMOTHER,
-    STEPBROTHER
 }
 
 enum class RelationKey {

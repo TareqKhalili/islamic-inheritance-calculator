@@ -1,15 +1,42 @@
-import java.util.Scanner
 
 class Main {
     enum class PROYARITY {
-        NONE, SON, SON_OF_SON, SON_OF_SON_OF_SON, FATHER, GRANDFATHER, BROTHERS,
-        BROTHERS_FROM_FATHER, KIDS_OF_BROTHERS, KIDS_OF_BROTHERS_OF_FATHER,
-        KIDS_OF_KIDS_OF_BROTHERS, KIDS_OF_KIDS_OF_BROTHERS_OF_FATHER,
-        UNCLE, UNCLE_OF_FATHERS, KIDS_OF_UNCLE, KIDS_OF_UNCLE_OF_FATHERS, KIDS_OF_COUSIN, KIDS_OF_COUSIN_OF_FATHER,
-        FATHER_UNCLE, FATHER_UNCLE_OF_FATHER, SON_OF_FATHER_UNCLE, SON_OF_FATHER_UNCLE_OF_FATHER,  /**/
-        SISTERS, DOUNTER, DOUTER_OF_SON, DOUTER_OF_SON_OF_SON,
-        HUSABAND, BROOM, SISTERS_OF_FATHER, SIBLINGSMOTHER, BROTHERS_FROM_MOTHER, GRANDMOTHER_FORM_MOTHERS_SIDE, MOTHER, GRANDMOTHER_FORM_FATHER_SIDE
-    }
+        NONE, //
+        SON, // ابن
+        SON_OF_SON, // حفيد
+        SON_OF_SON_OF_SON, // ابن الحفيد
+        FATHER, // اب
+        GRANDFATHER, // جد
+        BROTHERS, // اخ
+        BROTHERS_FROM_FATHER, // اخ غير شقيق
+        KIDS_OF_BROTHERS, // اولاد الاخ
+        KIDS_OF_BROTHERS_OF_FATHER, // اولاد الاخ غير الشقيق
+        KIDS_OF_KIDS_OF_BROTHERS, // احفاد الاخ
+        KIDS_OF_KIDS_OF_BROTHERS_OF_FATHER, // احفاد الاخ غير الشقيق
+        UNCLE, // عم
+        UNCLE_OF_FATHERS, // عم لأب
+        KIDS_OF_UNCLE, // اولاد العم
+        KIDS_OF_UNCLE_OF_FATHERS, // احفاد العم لأب
+        KIDS_OF_COUSIN, // احفاد العم
+        KIDS_OF_COUSIN_OF_FATHER, // احفاد اولاد عم الاب
+        FATHER_UNCLE, // عم الاب
+        FATHER_UNCLE_OF_FATHER, //
+        SON_OF_FATHER_UNCLE, // ابن عم لاب
+        SON_OF_FATHER_UNCLE_OF_FATHER, //
+        /**/
+        SISTERS, // اخت
+        DOUNTER, // بنت
+        DOUTER_OF_SON, // حفيده
+        DOUTER_OF_SON_OF_SON, // حفيدة الابن
+        HUSABAND, // زوج
+        BROOM, // زوجة
+        SISTERS_OF_FATHER, // عمات
+        SIBLINGSMOTHER, // خالات
+        BROTHERS_FROM_MOTHER, // اخوة غير اشقاء
+        GRANDMOTHER_FORM_MOTHERS_SIDE, // جدة من ناحية الام
+        MOTHER, // الام
+        GRANDMOTHER_FORM_FATHER_SIDE // جدة من ناحية الاب
+    } // 34
 
     private val proyarities = PROYARITY.values()
 
