@@ -2,24 +2,54 @@ import java.util.Scanner
 
 class Main {
     enum class PROYARITY {
-        NONE, SON, SON_OF_SON, SON_OF_SON_OF_SON, FATHER, GRANDFATHER, BROTHERS,
-        BROTHERS_FROM_FATHER, KIDS_OF_BROTHERS, KIDS_OF_BROTHERS_OF_FATHER,
-        KIDS_OF_KIDS_OF_BROTHERS, KIDS_OF_KIDS_OF_BROTHERS_OF_FATHER,
-        UNCLE, UNCLE_OF_FATHERS, KIDS_OF_UNCLE, KIDS_OF_UNCLE_OF_FATHERS, KIDS_OF_COUSIN, KIDS_OF_COUSIN_OF_FATHER,
-        FATHER_UNCLE, FATHER_UNCLE_OF_FATHER, SON_OF_FATHER_UNCLE, SON_OF_FATHER_UNCLE_OF_FATHER,  /**/
-        SISTERS, DOUNTER, DOUTER_OF_SON, DOUTER_OF_SON_OF_SON,
-        HUSABAND, BROOM, SISTERS_OF_FATHER, SIBLINGSMOTHER, BROTHERS_FROM_MOTHER, GRANDMOTHER_FORM_MOTHERS_SIDE, MOTHER, GRANDMOTHER_FORM_FATHER_SIDE
+        NONE, //
+        SON, //
+        SON_OF_SON, //
+        SON_OF_SON_OF_SON, //
+        FATHER, //
+        GRANDFATHER, //
+        BROTHERS, //
+        BROTHERS_FROM_FATHER,
+        KIDS_OF_BROTHERS, //
+        KIDS_OF_BROTHERS_OF_FATHER, //
+        KIDS_OF_KIDS_OF_BROTHERS,
+        KIDS_OF_KIDS_OF_BROTHERS_OF_FATHER, //
+        UNCLE,
+        UNCLE_OF_FATHERS, //
+        KIDS_OF_UNCLE, //
+        KIDS_OF_UNCLE_OF_FATHERS, //
+        KIDS_OF_COUSIN, //
+        KIDS_OF_COUSIN_OF_FATHER, //
+        FATHER_UNCLE,
+        FATHER_UNCLE_OF_FATHER, //
+        SON_OF_FATHER_UNCLE, //
+        SON_OF_FATHER_UNCLE_OF_FATHER, //
+
+        /**/
+        SISTERS,
+        DOUNTER, //
+        DOUTER_OF_SON, //
+        DOUTER_OF_SON_OF_SON, //
+        HUSABAND,
+        BROOM, //
+        SISTERS_OF_FATHER, //
+        SIBLINGSMOTHER, //
+        BROTHERS_FROM_MOTHER, //
+        GRANDMOTHER_FORM_MOTHERS_SIDE, //
+        MOTHER, //
+        GRANDMOTHER_FORM_FATHER_SIDE, //
+        NULL,
     }
 
-    private val proyarities = PROYARITY.values()
+    private val proyarities: Array<PROYARITY> = PROYARITY.values()
 
     //Ask as above
     private var Inheritor: IntArray = IntArray(proyarities.size)
     private val Inheritor_wealth = arrayOfNulls<String>(proyarities.size)
-    
+
     private val Blocked = ArrayList<String>()
     private val To_Front = ArrayList<String>()
-    
+
     private var proyarity: PROYARITY? = null
     private var total_wealth = 0.0
     private var rem = 0.0
@@ -88,8 +118,7 @@ class Main {
                 Inheritor_wealth[proyarity!!.ordinal] = "rem"
                 if (Inheritor[father.ordinal] != 0) {
                     Inheritor_wealth[proyarities[father.ordinal].ordinal] = "0.166667"
-                }
-                else if (Inheritor[proyarities[PROYARITY.GRANDFATHER.ordinal].ordinal] != 0) {
+                } else if (Inheritor[proyarities[PROYARITY.GRANDFATHER.ordinal].ordinal] != 0) {
                     Inheritor_wealth[proyarities[PROYARITY.GRANDFATHER.ordinal].ordinal] =
                         "0.166667"
                 }
@@ -174,7 +203,7 @@ class Main {
         if (index != 0) {
             for (i in index + 1 until proyarities[PROYARITY.SON_OF_FATHER_UNCLE_OF_FATHER.ordinal].ordinal) {
                 if (Inheritor[i] != 0) {
-                    if(proyarities[i]!=PROYARITY.FATHER)
+                    if (proyarities[i] != PROYARITY.FATHER)
                         Blocked.add(proyarities[i].name)
                 }
             }
@@ -222,15 +251,14 @@ class Main {
         var rem = total_wealth
         var marge = 0
         for (i in Inheritor_wealth.indices.reversed()) {
-            if(Inheritor_wealth[i]!=null && proyarities[i]!=null) {
-				String check = Inheritor_wealth[i] ;
-				String fill = proyarities[i].toString()+"( ";
+            if (Inheritor_wealth[i] != null && proyarities[i] != PROYARITY.NULL) {
+                val check: String = Inheritor_wealth[i]!!
+                var fill: String = proyarities[i].toString() + "( ";
                 try {
-					Double.parseDouble(check);
-					fill += check  +" ) = "; 
-				}catch(e: Exception) {
-					fill += "rem"+" ) = "; 
-				}
+                    fill += "$check ) = ";
+                } catch (e: Exception) {
+                    fill += "rem" + " ) = ";
+                }
                 print(proyarities[i].toString() + " " + Inheritor[i] + " " + Inheritor_wealth[i] + "--->")
                 val split =
                     Inheritor_wealth[i]!!.split(",".toRegex()).dropLastWhile { it.isEmpty() }
@@ -240,7 +268,7 @@ class Main {
                         val result = total_wealth * split[0].toDouble() * part
                         rem -= result
                         println("$result+ rem $rem")
-                        fill+=result;
+                        fill += result;
                     } catch (e: Exception) {
                         when (split[0]) {
                             "SON" -> {
@@ -263,17 +291,17 @@ class Main {
                                 marge = 6
                             }
                         }
-                        val boys = Inheritor[marge]*2; 
-						val girls = Inheritor[i];
-						val total_ = boys + girls;
-						val girl_ = ((rem/total_)*girls)*part;
-						val boy_ = ((rem/total_)*boys)*part;
-						rem-=girl_;
-						fill += girl_;
-						To_Front.add(fill);
-						System.out.print(girl_);
-						System.out.println(" "+ " " +boy_);
-						fill = PROYARITY.values()[marge].toString()+"( rem ) = "+ boy_;
+                        val boys = Inheritor[marge] * 2;
+                        val girls = Inheritor[i];
+                        val total_ = boys + girls;
+                        val girl_ = ((rem / total_) * girls) * part;
+                        val boy_ = ((rem / total_) * boys) * part;
+                        rem -= girl_
+                        fill += girl_;
+                        To_Front.add(fill);
+                        System.out.print(girl_);
+                        System.out.println(" " + " " + boy_);
+                        fill = PROYARITY.values()[marge].toString() + "( rem ) = " + boy_;
                     }
                 } else {
                     if (Inheritor_wealth[i] !== "rem") {
@@ -281,19 +309,20 @@ class Main {
                         rem -= result
                         println(result)
                         fill += result;
-                    } else{ println(rem){
-                    		fill += rem;
-						rem-=rem;
+                    } else {
+                        println(rem)
+                        fill += rem;
+                        rem -= rem;
+                        To_Front.add(fill);
+
                     }
-                    To_Front.add(fill);
-                     
                 }
             }
-        }
-        val index = proyarity!!.ordinal
-        println("المحجوبون بفعل $proyarity")
-        for (i in Blocked.indices) {
-            println(Blocked[i])
+            val index = proyarity!!.ordinal
+            println("المحجوبون بفعل $proyarity")
+            for (i in Blocked.indices) {
+                println(Blocked[i])
+            }
         }
     }
 
@@ -356,7 +385,7 @@ class Main {
         Inheritor_branch = true
         if (Inheritor[proyarities[PROYARITY.SON.ordinal].ordinal] != 0) {
             Inheritor_wealth[index] = "SON,rem"
-            	proyarities[(PROYARITY.SON).ordinal()] = null;
+            proyarities[(PROYARITY.SON).ordinal] = PROYARITY.NULL
         } else if (Inheritor[index] == 1) {
             Inheritor_wealth[index] = "0.5"
         } else if (Inheritor[index] > 1) { //
@@ -370,9 +399,9 @@ class Main {
             Inheritor[index - 1] <= 1
         ) {
             if (Inheritor[proyarities[PROYARITY.SON_OF_SON.ordinal].ordinal] != 0) {
-               			Inheritor_wealth[index] = "SON_OF_SON,rem";
-				proyarities[(PROYARITY.SON_OF_SON).ordinal()] = null;
-                
+                Inheritor_wealth[index] = "SON_OF_SON,rem";
+                proyarities[(PROYARITY.SON_OF_SON).ordinal] = PROYARITY.NULL;
+
             } else if (Inheritor[index - 1] == 1) {
                 Inheritor_wealth[index] = "0.166667" //,e;
             } else if (Inheritor[index - 1] == 0) {
@@ -392,7 +421,7 @@ class Main {
         ) {
             if (Inheritor[proyarities[PROYARITY.SON_OF_SON_OF_SON.ordinal].ordinal] != 0) {
                 Inheritor_wealth[index] = "SON_OF_SON_OF_SON,rem"
-                proyarities[(PROYARITY.SON_OF_SON_OF_SON).ordinal()] = null;
+                proyarities[(PROYARITY.SON_OF_SON_OF_SON).ordinal] = PROYARITY.NULL;
             } else if (Inheritor[index - 1] == 1) {
                 Inheritor_wealth[index] = "0.166667" //,e;
             } else if (Inheritor[index - 1] == 0) {
@@ -406,11 +435,11 @@ class Main {
     }
 
     private fun SISTERS(index: Int) {
- 		if(Inheritor[proyarities[(PROYARITY.BROTHERS).ordinal()].ordinal()]!=0 && (!Inheritor_branch)) {
-			Inheritor_wealth[index] = "BROTHERS,rem";
-			proyarities[(PROYARITY.BROTHERS).ordinal()] = null;
-			return;
-		} else {
+        if (Inheritor[proyarities[(PROYARITY.BROTHERS).ordinal].ordinal] != 0 && (!Inheritor_branch)) {
+            Inheritor_wealth[index] = "BROTHERS,rem";
+            proyarities[(PROYARITY.BROTHERS).ordinal] = PROYARITY.NULL;
+            return;
+        } else {
             if (!Inheritor_branch) {
                 if (Inheritor[index] == 1) {
                     Inheritor_wealth[index] = "0.5"
@@ -428,11 +457,11 @@ class Main {
     }
 
     private fun SISTERS_OF_FATHER(index: Int) {
-        if (Inheritor[proyarities[PROYARITY.BROTHERS_FROM_FATHER.ordinal].ordinal] != 0 && (!Inheritor_branch)){ Inheritor_wealth[index] =
-            "BROTHERS_FROM_FATHER,rem"
-            proyarities[(PROYARITY.BROTHERS_FROM_FATHER).ordinal()] = null;
-        }
-        else {
+        if (Inheritor[proyarities[PROYARITY.BROTHERS_FROM_FATHER.ordinal].ordinal] != 0 && (!Inheritor_branch)) {
+            Inheritor_wealth[index] =
+                "BROTHERS_FROM_FATHER,rem"
+            proyarities[(PROYARITY.BROTHERS_FROM_FATHER).ordinal] = PROYARITY.NULL;
+        } else {
             if (!Inheritor_branch &&
                 Inheritor[index - 1] <= 1
             ) {
